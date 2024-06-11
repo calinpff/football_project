@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-e6j807ol=kjy2+*6x-970s-_x*brmbuv#0+r56468cv)+$rg_q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = 'footballproject.pythonanywhere.com'
+ALLOWED_HOSTS = [
+    'footballproject.pythonanywhere.com',
+    '127.0.0.1',
+    'localhost',
+    ]
 
 # Application definition
 
@@ -117,6 +121,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
