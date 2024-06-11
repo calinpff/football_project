@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Football fields
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row gy-5">
+        {% for field in all_fields %}
+                <div class="col-md-2">
+                    <div class="card">
+                        {% if field.field_image %}
+                            <img src="{{ field.field_image.url }}" class="card-img-top" height="300"
+                                 alt="Field Preview">
+                            {% else %}
+                            <img src="{% static 'images/teren_sintetic_test.png' %}" class="card-img-top" height="300"
+                                 alt="Field Preview">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ field }}</h5>
+                            <p class="card-text">Location: {{ field.latitude }} {{ field.longitude }}</p>
+                            <div class="card-footer text-center">
+                            <div class="dropdown">
+                                    <button class="btn btn-dark dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        Options
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'field_details' field.id %}">Details</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'update_field' field.id %}">Update</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'delete_field' field.id %}">Delete</a></li>
+                                    </ul>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

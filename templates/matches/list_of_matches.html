@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Available matches
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div style="height: 100px !important; background-color: #cc000077" class="col-12 m-0 p-0">
+            <p>BANNER</p>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col-lg-9 col-12">
+                <div class="col-md-6 offset-3">
+                    {% for match in all_matches %}
+                        <div class="card mb-5">
+                            <img src="{{ match.field.field_image.url }}" style="height: 200px; width: 512px"
+                                 class="card-img-top" alt="Field Preview">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ match.field }}</h5>
+                                <p class="card-text">Slots left: {{ match.number_of_slots }}</p>
+                                <p class="card-text"><small class="text-body-secondary">Last updated
+                                    at {{ match.updated_at }}</small></p>
+                                <a class="btn btn-primary" href="{% url 'match_details' match.id %}" role="button">View
+                                    Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-12 m-0 p-0" style="background-color: #0000cc77">
+                <p>SIDE BANNER</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 m-0 p-0" style="height: 150px; background-color: #0cc00077">
+                <p>BOTTOM BANNER</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

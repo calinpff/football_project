@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Match details
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    {% if match.field.field_image %}
+                        <img src="{{ match.field.field_image.url }}" class="img-fluid rounded-start"
+                             alt="Field preview">
+                    {% else %}
+                        <img src="{{ match.field.field_image.url }}" class="img-fluid rounded-start"
+                             alt="Field preview">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ match.field }}</h5>
+                        <p class="card-text">Organized by: {{ match.organizer }}</p>
+                        <p class="card-text">Slots available: {{ match.slots_available }}</p>
+                        <p class="card-text">Slots taken: {{ match.participants.count }}</p>
+                        <p class="card-text">Price: {{ match.price }} RON</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated at {{ match.updated_at|date:"d/m/Y H:i:s" }}</small></p>
+                        <form action="{% url 'join_match' match.id %}" method="post">
+                            {% csrf_token %}
+                            {% if match.participants.count < match.number_of_slots and request.user not in match.participants.all and request.user != match.organizer %}
+                                <button type="submit" class="btn btn-success text-center">Join match</button>
+                            {% endif %}
+                        </form>
+                        {% if request.user in match.participants.all %}
+                            <form action="{% url 'leave_match' match.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger text-center">Leave match</button>
+                            </form>
+                        {% endif %}
+                        {% if request.user == match.organizer %}
+                            <div class="card-footer text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-dark dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        Options
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'update_match' match.id %}">Update
+                                            match</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'delete_match' match.id %}">Delete
+                                            match</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

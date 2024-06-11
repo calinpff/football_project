@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add a new field
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 gy-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">New Field details</h3>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            {{ form.as_p }}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

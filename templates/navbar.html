@@ -1,0 +1,51 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'list_of_matches' %}">
+            <img src="{% static 'images/F4E.jpeg' %}" alt="Logo" width="50" height="50"
+                 class="d-inline-block align-text-top">
+            F4E</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Matches
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'create_match' %}">Create match</a></li>
+                        <li><a class="dropdown-item" href="{% url 'list_of_matches' %}">View matches</a></li>
+                    </ul>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Fields
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'add_field' %}">Add field</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'field_list' %}">List of fields</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger">Logout, {{ user.username }}</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                    <a href="{% url 'create_user' %}" class="btn btn-outline-secondary">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
