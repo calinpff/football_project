@@ -1,10 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import EmailMessage
 from django.shortcuts import redirect
+from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
+from football_project.settings import EMAIL_HOST_USER
 from players.forms import MatchForm, PlayerForm, FieldForm, FieldUpdateForm
 from players.models import Match, Player, Field
 
@@ -99,6 +102,22 @@ class PlayerCreateView(CreateView):
             new_user.first_name = new_user.first_name.title()
             new_user.last_name = new_user.last_name.title()
             new_user.save()
+
+            details_user = {
+                'fullname': f'{new_user.first_name.title()} {new_user.last_name.title()}',
+                'user_name': new_user.username
+            }
+
+            subject = 'Welcome to Footbal4Everyone!'
+            message = get_template('mail_account_created.html').render(details_user)
+            mail = EmailMessage(
+                subject,
+                message,
+                EMAIL_HOST_USER,
+                [new_user.email]
+            )
+            mail.content_subtype = 'html'
+            mail.send()
 
             return redirect(self.success_url)
 

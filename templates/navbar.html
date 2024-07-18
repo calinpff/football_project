@@ -13,27 +13,28 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Matches
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'create_match' %}">Create match</a></li>
-                        <li><a class="dropdown-item" href="{% url 'list_of_matches' %}">View matches</a></li>
-                    </ul>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Matches
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'create_match' %}">Create match</a></li>
+                            <li><a class="dropdown-item" href="{% url 'list_of_matches' %}">View matches</a></li>
+                        </ul>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Fields
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if user.is_superuser %}
+                                <li><a class="dropdown-item" href="{% url 'add_field' %}">Add field</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'field_list' %}">List of fields</a></li>
+                        </ul>
+                    </li>
                 {% endif %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Fields
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% if user.is_superuser %}
-                            <li><a class="dropdown-item" href="{% url 'add_field' %}">Add field</a></li>
-                        {% endif %}
-                        <li><a class="dropdown-item" href="{% url 'field_list' %}">List of fields</a></li>
-                    </ul>
-                </li>
             </ul>
             <div class="d-flex">
                 {% if user.is_authenticated %}
